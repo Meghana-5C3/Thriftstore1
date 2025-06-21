@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Welcome, {{ user.username }}</h2>
+    <p>This is your Buyer Dashboard.</p>
+    <ul>
+        <li><a href="{% url 'orders:order_history' %}">My Orders</a></li>
+        <li><a href="{% url 'wishlist:view' %}">My Wishlist</a></li>
+        <li><a href="{% url 'reviews:add_review' 1 %}">Write a Review</a></li>
+    </ul>
+</div>
+{% endblock %}

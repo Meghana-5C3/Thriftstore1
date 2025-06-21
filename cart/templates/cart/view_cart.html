@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Your Cart</h2>
+    {% if cart.items.all %}
+        <ul class="list-group mb-3">
+            {% for item in cart.items.all %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                {{ item.product.title }} - {{ item.quantity }} × ₹{{ item.product.price }}
+                <a href="{% url 'cart:remove_from_cart' item.id %}" class="btn btn-danger btn-sm">Remove</a>
+            </li>
+            {% endfor %}
+        </ul>
+        <h4>Total: ₹{{ cart.total_price }}</h4>
+        <a href="#" class="btn btn-success">Checkout</a>
+    {% else %}
+        <p>Your cart is empty.</p>
+    {% endif %}
+</div>
+{% endblock %}

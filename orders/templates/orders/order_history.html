@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>My Orders</h2>
+<ul class="list-group">
+    {% for order in orders %}
+        <li class="list-group-item">
+            <a href="{% url 'orders:order_detail' order.id %}">Order #{{ order.id }}</a>
+            - {{ order.created_at|date:"Y-m-d H:i" }}
+            - ₹{{ order.total_price }}
+        </li>
+    {% empty %}
+        <li class="list-group-item">No orders found.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Hello Seller, {{ user.username }}</h2>
+    <p>This is your Seller Dashboard.</p>
+    <ul>
+        <li><a href="{% url 'products:product_form' %}">Upload New Product</a></li>
+        <li><a href="{% url 'products:product_list' %}">View My Products</a></li>
+        <li><a href="{% url 'orders:order_history' %}">Order Requests</a></li>
+    </ul>
+</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Checkout</h2>
+    {% if items %}
+    <form method="post" action="{% url 'checkout:place_order' %}">
+        {% csrf_token %}
+        <ul class="list-group mb-3">
+            {% for item in items %}
+            <li class="list-group-item d-flex justify-content-between lh-condensed">
+                <div>
+                    <h6 class="my-0">{{ item.product.title }}</h6>
+                    <small class="text-muted">{{ item.product.description|truncatechars:60 }}</small>
+                </div>
+                <span class="text-muted">₹{{ item.product.price }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+        <button class="btn btn-success btn-lg btn-block" type="submit">Place Order</button>
+    </form>
+    {% else %}
+    <p>No items in your cart.</p>
+    {% endif %}
+</div>
+{% endblock %}

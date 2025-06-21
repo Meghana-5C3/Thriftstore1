@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h4 class="mb-4">Notifications</h4>
+
+    {% for alert in notifications %}
+        <div class="alert alert-{{ alert.type }} alert-dismissible fade show d-flex justify-content-between align-items-center" role="alert">
+            <div>
+                {{ alert.message }}
+                <small class="text-muted d-block">Received on {{ alert.created_at|date:"M d, Y H:i" }}</small>
+            </div>
+            <div>
+                {% if not alert.read %}
+                    <a href="{% url 'notifications:mark_as_read' alert.id %}" class="btn btn-sm btn-outline-primary me-2">Mark as Read</a>
+                {% endif %}
+                <a href="{% url 'notifications:delete' alert.id %}" class="btn btn-sm btn-outline-danger">Delete</a>
+            </div>
+        </div>
+    {% empty %}
+        <div class="alert alert-info">
+            No notifications at this time.
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

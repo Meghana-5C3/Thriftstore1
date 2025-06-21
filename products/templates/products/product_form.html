@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-dark text-white text-center">
+                    <h4 class="mb-0">Upload New Product</h4>
+                </div>
+                <div class="card-body p-4">
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+                            {{ form.title.label_tag }}
+                            {{ form.title }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form.description.label_tag }}
+                            {{ form.description }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form.price.label_tag }}
+                            {{ form.price }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form.category.label_tag }}
+                            {{ form.category }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form.condition.label_tag }}
+                            {{ form.condition }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form.image.label_tag }}
+                            {{ form.image }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form.discount_percentage.label_tag }}
+                            {{ form.discount_percentage }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form.offer_label.label_tag }}
+                            {{ form.offer_label }}
+                        </div>
+
+                        <button type="submit" class="btn btn-dark w-100">Save Product</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

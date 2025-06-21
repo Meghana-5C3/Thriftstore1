@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+.hero {
+    background: url("{% static 'images/hero-banner.jpg' %}") no-repeat center center/cover;
+    height: 60vh;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.hero h1 {
+    font-size: 3rem;
+    font-weight: bold;
+}
+.category-card img {
+    height: 200px;
+    object-fit: cover;
+}
+</style>
+
+<div class="hero">
+    <div>
+        <h1>Shop Secondhand Treasures</h1>
+        <p class="lead">Save up to 90% off retail on top brands</p>
+        <a href="{% url 'products:product_list' %}" class="btn btn-light btn-lg mt-3">Start Shopping</a>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Shop by Category</h2>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card category-card">
+                <img src="{% static 'images/women.jpg' %}" class="card-img-top" alt="Women">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Women</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card category-card">
+                <img src="{% static 'images/kids.jpg' %}" class="card-img-top" alt="Kids">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Kids</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card category-card">
+                <img src="{% static 'images/shoes.jpg' %}" class="card-img-top" alt="Shoes">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Shoes</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card category-card">
+                <img src="{% static 'images/accessories.jpg' %}" class="card-img-top" alt="Accessories">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Accessories</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Featured Products</h2>
+    <div class="row">
+        {% for product in products|slice:":4" %}
+        <div class="col-md-3 mb-4">
+            <div class="card h-100">
+                <img src="{{ product.image.url }}" class="card-img-top" style="height: 250px; object-fit: cover;" alt="{{ product.title }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.title }}</h5>
+                    <p class="card-text">₹{{ product.price }}</p>
+                    <a href="{% url 'products:product_detail' product.id %}" class="btn btn-sm btn-outline-dark w-100">View</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-muted">No products available yet.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

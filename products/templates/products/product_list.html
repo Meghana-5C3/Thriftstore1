@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Explore Products</h2>
+
+    <!-- Filters -->
+    <form method="get" class="row g-3 align-items-end mb-4">
+        <div class="col-md-3">
+            <input type="text" name="search" class="form-control" placeholder="Search products"
+                   value="{{ search_query }}">
+        </div>
+
+        <div class="col-md-2">
+            <select name="category" class="form-select">
+                <option value="">All Categories</option>
+                {% for category in categories %}
+                    <option value="{{ category.id }}" {% if category.id|stringformat:"s" == request.GET.category %}selected{% endif %}>{{ category.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="col-md-2">
+            <select name="condition" class="form-select">
+                <option value="">All Conditions</option>
+                {% for condition in conditions %}
+                    <option value="{{ condition.id }}" {% if condition.id|stringformat:"s" == request.GET.condition %}selected{% endif %}>{{ condition.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="col-md-2">
+            <input type="number" name="min_price" class="form-control" placeholder="Min Price"
+                   value="{{ min_price }}">
+        </div>
+
+        <div class="col-md-2">
+            <input type="number" name="max_price" class="form-control" placeholder="Max Price"
+                   value="{{ max_price }}">
+        </div>
+
+        <div class="col-md-1">
+            <button type="submit" class="btn btn-primary w-100">Filter</button>
+        </div>
+    </form>
+
+    <!-- Product Cards -->
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+        {% for product in products %}
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <img src="{{ product.image.url }}" class="card-img-top" style="object-fit: cover; height: 200px;" alt="{{ product.title }}">
+                <div class="card-body p-2">
+                    <h6 class="card-title text-truncate">{{ product.title }}</h6>
+                    <p class="card-text text-muted small mb-1">₹{{ product.price }}</p>
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'products:product_detail' product.id %}" class="btn btn-sm btn-outline-primary">View</a>
+                        <div>
+                            <a href="{% url 'wishlist:add' product.id %}" class="btn btn-sm btn-outline-danger" title="Add to Wishlist"><i class="bi bi-heart">Add Wishlist</i></a>
+                            <a href="{% url 'cart:add_to_cart' product.id %}" class="btn btn-sm btn-outline-success" title="Add to Cart"><i class="bi bi-cart-plus">Add Cart</i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>No products found.</p>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    <div class="mt-4 d-flex justify-content-center">
+        <nav>
+            <ul class="pagination">
+                {% if products.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?{% if request.GET %}{{ request.GET.urlencode }}&{% endif %}page={{ products.previous_page_number }}">Previous</a>
+                    </li>
+                {% endif %}
+                {% for num in products.paginator.page_range %}
+                    <li class="page-item {% if products.number == num %}active{% endif %}">
+                        <a class="page-link" href="?{% if request.GET %}{{ request.GET.urlencode }}&{% endif %}page={{ num }}">{{ num }}</a>
+                    </li>
+                {% endfor %}
+                {% if products.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?{% if request.GET %}{{ request.GET.urlencode }}&{% endif %}page={{ products.next_page_number }}">Next</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+</div>
+{% endblock %}

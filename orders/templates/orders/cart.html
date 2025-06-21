@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Your Shopping Bag</h2>
+
+    {% if cart_items %}
+        <form method="post" action="{% url 'cart:update' %}">
+            {% csrf_token %}
+            <div class="table-responsive">
+                <table class="table align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col">Product</th>
+                            <th scope="col">Details</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Total</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in cart_items %}
+                        <tr>
+                            <td style="width: 120px;">
+                                <img src="{{ item.product.image.url }}" class="img-fluid rounded" style="height: 100px; object-fit: cover;">
+                            </td>
+                            <td>
+                                                          <strong>{{ item.product.title }}</strong><br>
+                                <small class="text-muted">{{ item.product.category.name }} | {{ item.product.condition.name }}</small>
+                            </td>
+                            <td style="width: 120px;">
+                                <input type="number" name="quantity_{{ item.id }}" value="{{ item.quantity }}" class="form-control" min="1">
+                            </td>
+                            <td>₹{{ item.product.price }}</td>
+                            <td>₹{{ item.total_price }}</td>
+                            <td>
+                                <a href="{% url 'cart:remove' item.id %}" class="btn btn-sm btn-outline-danger">Remove</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mt-4">
+                <h4>Total: ₹{{ cart_total }}</h4>
+                <div>
+                    <button type="submit" class="btn btn-outline-primary">Update Cart</button>
+                    <a href="{% url 'checkout:checkout' %}" class="btn btn-success ms-2">Checkout</a>
+                </div>
+            </div>
+        </form>
+    {% else %}
+        <p class="text-muted">Your bag is empty. Start adding your favorite finds!</p>
+    {% endif %}
+</div>
+{% endblock %}
+     

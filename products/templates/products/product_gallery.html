@@ -1,0 +1,14 @@
+
+
+{% extends 'base.html' %}
+{% block content %}
+<h2>Product Gallery</h2>
+<div class="row">
+  {% for product in products %}
+    <div class="col-md-3">
+      <img src="{{ product.images.first.image.url }}" class="img-fluid mb-2">
+      <p>{{ product.title }}</p>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}
